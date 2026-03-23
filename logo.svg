@@ -1,0 +1,26 @@
+<svg width="200" height="200" viewBox="0 0 200 200" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="glow" x1="0" y1="0" x2="200" y2="200">
+      <stop offset="0%" stop-color="#ffffff" />
+      <stop offset="100%" stop-color="#ffae00" />
+    </linearGradient>
+    <filter id="shadow" x="-50%" y="-50%" width="200%" height="200%">
+      <feGaussianBlur in="SourceAlpha" stdDeviation="5" />
+      <feOffset dx="0" dy="0" result="offsetblur" />
+      <feFlood flood-color="#ffae00" flood-opacity="0.5" />
+      <feComposite in2="offsetblur" operator="in" />
+      <feMerge>
+        <feMergeNode />
+        <feMergeNode in="SourceGraphic" />
+      </feMerge>
+    </filter>
+  </defs>
+  <!-- Background subtle circle -->
+  <circle cx="100" cy="100" r="80" fill="#0a0a0c" stroke="#ffae00" stroke-width="0.5" stroke-opacity="0.2"/>
+  
+  <!-- Stylized Metallic Z -->
+  <path d="M50 50 H150 L50 150 H150" stroke="url(#glow)" stroke-width="25" stroke-linecap="round" stroke-linejoin="round" filter="url(#shadow)"/>
+  
+  <!-- Decorative highlight -->
+  <path d="M60 60 H140" stroke="white" stroke-width="4" stroke-linecap="round" opacity="0.4"/>
+</svg>

@@ -1,0 +1,417 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Zime ROI | Intelligence Analytics</title>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@200;400;700;900&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-color: #000000;
+            --card-bg: rgba(15, 15, 18, 0.6);
+            --card-border: rgba(255, 174, 0, 0.2);
+            --accent-gold: #ffae00; /* Amber/Gold da imagem */
+            --accent-silver: #e0e0e0;
+            --text-high: #ffffff; /* Máximo contraste */
+            --text-low: #888888;
+            --success: #00ff88;
+            --danger: #ff3333;
+            --glass-blur: blur(30px);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Outfit', sans-serif;
+        }
+
+        body {
+            background-color: var(--bg-color);
+            color: var(--text-high);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            overflow-x: hidden;
+            background-image: 
+                radial-gradient(circle at 20% 20%, rgba(255, 174, 0, 0.03) 0%, transparent 40%),
+                radial-gradient(circle at 80% 80%, rgba(255, 174, 0, 0.03) 0%, transparent 40%);
+        }
+
+        .container {
+            width: 95%;
+            max-width: 1200px;
+            padding: 20px;
+        }
+
+        /* HEADER SECTION */
+        header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 60px;
+            position: relative;
+            padding: 10px 0;
+        }
+
+        .logo-box {
+            width: 150px;
+            flex-shrink: 0;
+        }
+
+        .logo-img {
+            max-width: 120px;
+            height: auto;
+            filter: drop-shadow(0 0 10px rgba(255, 174, 0, 0.2));
+        }
+
+        .app-title-box {
+            position: absolute;
+            left: 50%;
+            transform: translateX(-50%);
+            text-align: center;
+        }
+
+        .app-name {
+            font-size: 2.8rem;
+            font-weight: 900;
+            letter-spacing: -1px;
+            text-transform: uppercase;
+            background: linear-gradient(to bottom, #fff 40%, var(--accent-gold) 100%);
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: -5px;
+        }
+
+        .app-subtitle {
+            font-size: 0.75rem;
+            font-weight: 200;
+            color: var(--accent-silver);
+            letter-spacing: 6px;
+            text-transform: uppercase;
+            opacity: 0.6;
+        }
+
+        .spacer {
+            width: 150px; /* Equilibra o logo da esquerda */
+        }
+
+        /* MAIN LAYOUT */
+        .dashboard-grid {
+            display: grid;
+            grid-template-columns: 380px 1fr;
+            gap: 25px;
+        }
+
+        @media (max-width: 950px) {
+            .dashboard-grid {
+                grid-template-columns: 1fr;
+            }
+            .app-title-box { position: static; transform: none; margin: 20px 0; }
+            header { flex-direction: column; text-align: center; }
+        }
+
+        /* CARDS */
+        .card {
+            background: var(--card-bg);
+            border: 1px solid var(--card-border);
+            backdrop-filter: var(--glass-blur);
+            border-radius: 30px;
+            padding: 40px;
+            box-shadow: 0 40px 80px rgba(0,0,0,0.8);
+        }
+
+        .input-group {
+            margin-bottom: 25px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 12px;
+            color: var(--accent-gold);
+            font-weight: 700;
+            font-size: 0.85rem;
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+        }
+
+        input {
+            width: 100%;
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            border-radius: 16px;
+            padding: 18px;
+            color: #fff;
+            font-size: 1.2rem;
+            font-weight: 400;
+            outline: none;
+            transition: 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        input:focus {
+            border-color: var(--accent-gold);
+            background: rgba(255, 174, 0, 0.05);
+            box-shadow: 0 0 30px rgba(255, 174, 0, 0.15);
+        }
+
+        /* RESULTS SECTION */
+        .results-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 20px;
+        }
+
+        .result-item {
+            padding: 30px;
+            background: rgba(255, 255, 255, 0.02);
+            border: 1px solid rgba(255, 255, 255, 0.02);
+            border-radius: 20px;
+            text-align: center;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+
+        .item-label {
+            font-size: 0.7rem;
+            color: var(--text-low);
+            margin-bottom: 10px;
+            text-transform: uppercase;
+            font-weight: 700;
+            letter-spacing: 2px;
+        }
+
+        .item-value {
+            font-size: 2.2rem;
+            font-weight: 700;
+            color: var(--text-high);
+        }
+
+        /* LUCRO CARD - DESTAQUE */
+        .lucro-card {
+            grid-column: span 2;
+            background: linear-gradient(135deg, rgba(255, 174, 0, 0.1) 0%, transparent 100%);
+            border: 1px solid rgba(255, 174, 0, 0.3);
+            position: relative;
+        }
+
+        .lucro-card .item-value {
+            font-size: 3rem;
+            color: var(--accent-gold);
+            text-shadow: 0 10px 30px rgba(255, 174, 0, 0.3);
+        }
+
+        /* INTERPRETATION */
+        .status-box {
+            grid-column: span 2;
+            padding: 25px;
+            background: rgba(0,0,0,0.3);
+            border-radius: 20px;
+            border-left: 5px solid var(--accent-gold);
+            margin-top: 10px;
+        }
+
+        .status-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 10px;
+        }
+
+        .status-title {
+            font-size: 0.8rem;
+            font-weight: 700;
+            color: var(--accent-silver);
+            opacity: 0.8;
+        }
+
+        .badge {
+            padding: 5px 15px;
+            border-radius: 50px;
+            font-size: 0.7rem;
+            font-weight: 900;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+        }
+
+        .badge-pos { background: rgba(0, 255, 136, 0.2); color: var(--success); }
+        .badge-neg { background: rgba(255, 51, 51, 0.2); color: var(--danger); }
+
+        .status-text {
+            font-size: 1rem;
+            line-height: 1.6;
+            color: #ddd;
+            font-weight: 300;
+        }
+
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <header>
+        <div class="logo-box">
+            <img src="logo.png" alt="ZIME" class="logo-img" onerror="this.src='logo.svg'; this.onerror=function(){this.src='https://via.placeholder.com/150/000000/ffae00?text=Z'; this.style.borderRadius='10px'}">
+        </div>
+        
+        <div class="app-title-box">
+            <div class="app-name">Zime ROI</div>
+            <div class="app-subtitle">Intelligence Analytics</div>
+        </div>
+
+        <div class="spacer"></div> <!-- Alinhamento simétrico -->
+    </header>
+
+    <div class="dashboard-grid">
+        <!-- Input Block -->
+        <div class="card">
+            <div class="input-group">
+                <label>Investimento Ads</label>
+                <input type="number" id="spend" value="1000" step="0.01">
+            </div>
+            <div class="input-group">
+                <label>Ticket do Produto</label>
+                <input type="number" id="ticket" value="197" step="0.01">
+            </div>
+            <div class="input-group">
+                <label>Número de Vendas</label>
+                <input type="number" id="sales" value="25">
+            </div>
+            <div class="input-group" style="margin-bottom: 0;">
+                <label style="opacity: 0.5;">Faturamento (Opcional)</label>
+                <input type="number" id="manual_revenue" placeholder="Cálculo automático">
+            </div>
+        </div>
+
+        <!-- Analytical Block -->
+        <div class="card results-grid">
+            <div class="result-item lucro-card">
+                <p class="item-label">Lucro Líquido Real</p>
+                <div id="lucro-value" class="item-value">R$ 0</div>
+            </div>
+
+            <div class="result-item">
+                <p class="item-label">Faturamento Total</p>
+                <div id="revenue-value" class="item-value">R$ 0</div>
+            </div>
+
+            <div class="result-item">
+                <p class="item-label">ROI (Retorno %)</p>
+                <div id="roi-value" class="item-value">0%</div>
+            </div>
+
+            <div class="result-item">
+                <p class="item-label">CPA Médio</p>
+                <div id="cpa-value" class="item-value">R$ 0</div>
+            </div>
+
+            <div class="result-item">
+                <p class="item-label">ROAS</p>
+                <div id="roas-value" class="item-value">0.0x</div>
+            </div>
+
+            <div class="status-box">
+                <div class="status-header">
+                    <div class="status-title">ANÁLISE DE PERFORMANCE</div>
+                    <span id="status-badge" class="badge badge-pos">ZIME OK</span>
+                </div>
+                <p id="status-text" class="status-text">
+                    Iniciando algoritmos de análise Zime...
+                </p>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    const inputs = ['spend', 'ticket', 'sales', 'manual_revenue'];
+    const el = {
+        spend: document.getElementById('spend'),
+        ticket: document.getElementById('ticket'),
+        sales: document.getElementById('sales'),
+        manual: document.getElementById('manual_revenue'),
+        lucro: document.getElementById('lucro-value'),
+        revenue: document.getElementById('revenue-value'),
+        roi: document.getElementById('roi-value'),
+        cpa: document.getElementById('cpa-value'),
+        roas: document.getElementById('roas-value'),
+        badge: document.getElementById('status-badge'),
+        text: document.getElementById('status-text')
+    };
+
+    function calculate() {
+        const spend = parseFloat(el.spend.value) || 0;
+        const ticket = parseFloat(el.ticket.value) || 0;
+        const sales = parseFloat(el.sales.value) || 0;
+        const manual = parseFloat(el.manual.value);
+
+        // Lógica de Faturamento
+        let revenue = sales * ticket;
+        if (!isNaN(manual)) {
+            revenue = manual;
+        } else {
+            el.manual.placeholder = "Auto: R$ " + (sales * ticket).toLocaleString();
+        }
+
+        // Fórmulas
+        const lucro = revenue - spend;
+        const roi = spend > 0 ? ((revenue - spend) / spend) * 100 : 0;
+        const roas = spend > 0 ? revenue / spend : 0;
+        const cpa = sales > 0 ? spend / sales : 0;
+
+        // Sync UI (Máximo Contraste)
+        el.revenue.innerText = 'R$ ' + revenue.toLocaleString('pt-BR', { minimumFractionDigits: 0 });
+        el.lucro.innerText = 'R$ ' + lucro.toLocaleString('pt-BR', { minimumFractionDigits: 0 });
+        el.roi.innerText = (roi > 0 ? '+' : '') + roi.toFixed(0) + '%';
+        el.roas.innerText = roas.toFixed(2) + 'x';
+        el.cpa.innerText = 'R$ ' + cpa.toLocaleString('pt-BR', { minimumFractionDigits: 2 });
+
+        // Cores Condicionais do Lucro
+        if (lucro < 0) {
+            el.lucro.style.color = '#ff3333'; // Vermelho: Perda
+        } else if (lucro === 0) {
+            el.lucro.style.color = '#0077ff'; // Azul: Empate
+        } else {
+            el.lucro.style.color = '#00ff88'; // Verde: Lucro
+        }
+
+        // Interpretador
+        analyze(roi, lucro);
+    }
+
+    function analyze(roi, lucro) {
+        let msg = "";
+        let badge = "SAUDÁVEL";
+        let color = "badge-pos";
+
+        if (lucro < 0) {
+            badge = "CRÍTICO";
+            color = "badge-neg";
+            msg = "Operação no prejuízo. O custo de aquisição está superando a margem. Revise os criativos e a estrutura de custos imediatamente.";
+        } else if (roi < 100) {
+            badge = "ALERTA";
+            color = "badge-neg";
+            msg = "Lucratividade baixa. Canalize esforços para aumentar o ticket médio ou otimizar a conversão da página.";
+        } else if (roi < 300) {
+            badge = "EXCELENTE";
+            color = "badge-pos";
+            msg = "Métricas saudáveis. O ROI indica um modelo validado. Considere aumentar o orçamento gradualmente.";
+        } else {
+            badge = "ESCALÁVEL 🚀";
+            color = "badge-pos";
+            msg = "Alta performance detectada! O ROI acima de 300% é um sinal verde para escala agressiva. Aproveite o momentum.";
+        }
+
+        el.badge.innerText = badge;
+        el.badge.className = "badge " + color;
+        el.text.innerText = msg;
+    }
+
+    inputs.forEach(id => document.getElementById(id).addEventListener('input', calculate));
+    calculate();
+</script>
+
+</body>
+</html>
