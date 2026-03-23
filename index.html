@@ -352,7 +352,10 @@
             <div class="input-group"><label>Investimento Ads</label><input type="number" id="spend" placeholder="0" step="0.01"></div>
             <div class="input-group"><label>Ticket do Produto</label><input type="number" id="ticket" placeholder="0" step="0.01"></div>
             <div class="input-group"><label>Número de Vendas</label><input type="number" id="sales" placeholder="0"></div>
-            <div class="input-group" style="margin-bottom: 0;"><label style="opacity: 0.3;">Faturamento (Opcional)</label><input type="number" id="manual_revenue" placeholder="Cálculo automático"></div>
+            <div class="input-group" style="margin-bottom: 0;">
+                <label>Faturamento Bruto (Automático)</label>
+                <input type="text" id="manual_revenue" readonly placeholder="R$ 0,00" style="background: rgba(255, 174, 0, 0.03); color: var(--accent-gold); cursor: default;">
+            </div>
         </div>
         <div class="card results-grid">
             <div class="result-item lucro-card"><p class="item-label">Lucro Líquido Real</p><div id="lucro-value" class="item-value">R$ 0</div></div>
@@ -421,8 +424,10 @@
         const spend = parseFloat(el.spend.value) || 0;
         const ticket = parseFloat(el.ticket.value) || 0;
         const sales = parseFloat(el.sales.value) || 0;
-        const manual = parseFloat(el.manual.value);
-        let revenue = !isNaN(manual) ? manual : sales * ticket;
+        
+        const revenue = sales * ticket;
+        el.manual.value = 'R$ ' + revenue.toLocaleString('pt-BR', { minimumFractionDigits: 2 });
+
         const lucro = revenue - spend;
         const roi = spend > 0 ? ((revenue - spend) / spend) * 100 : 0;
         
