@@ -449,7 +449,10 @@
         } else {
             if (lucro < 0) { badge = "CRÍTICO"; color = "badge-neg"; msg = "Negative ROI. Recalibre."; }
             else {
-                if (!modalTriggered && roi > 0) { accelModal.style.display = 'flex'; modalTriggered = true; }
+                if (!modalTriggered && roi > 0) { 
+                    modalTriggered = true;
+                    setTimeout(() => { accelModal.style.display = 'flex'; }, 2000);
+                }
                 if (roi < 100) { badge = "ALERTA"; color = "badge-neg"; msg = "ROI baixo. Otimize."; }
                 else if (roi < 300) { badge = "VALIDADO"; color = "badge-pos"; msg = "Escala gradual."; }
                 else { badge = "ESCALÁVEL 🚀"; color = "badge-pos"; msg = "Aproveite a escala!"; }
