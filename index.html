@@ -153,36 +153,75 @@
         }
 
         @keyframes popIn {
-            from { transform: scale(0.8); opacity: 0; }
-            to { transform: scale(1); opacity: 1; }
+            from { transform: scale(0.95) translateY(20px); opacity: 0; }
+            to { transform: scale(1) translateY(0); opacity: 1; }
+        }
+
+        @keyframes shimmer {
+            0% { background-position: -200% 0; }
+            100% { background-position: 200% 0; }
+        }
+
+        .modal-benefits {
+            text-align: left;
+            margin: 20px 0;
+            padding: 0;
+            list-style: none;
+            display: inline-block;
+        }
+
+        .modal-benefits li {
+            color: #ccc;
+            font-size: 0.9rem;
+            margin-bottom: 8px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .modal-benefits li::before {
+            content: '✓';
+            color: var(--accent-gold);
+            font-weight: 900;
         }
 
         .modal-title {
             font-size: 1.8rem;
             font-weight: 900;
-            color: var(--success);
+            color: var(--accent-gold);
             margin-bottom: 15px;
             text-transform: uppercase;
         }
 
         .modal-text {
             color: #eee;
-            margin-bottom: 30px;
+            margin-bottom: 25px;
             line-height: 1.6;
+            font-size: 1.1rem;
+        }
+
+        .modal-price-tag {
+            display: block;
+            font-size: 0.9rem;
+            color: var(--text-low);
+            margin-bottom: 20px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
         }
 
         .modal-btn-yes {
             width: 100%;
-            padding: 18px;
-            background: var(--accent-gold);
+            padding: 22px;
+            background: linear-gradient(135deg, var(--accent-gold), #ff8800);
             color: #000;
-            border-radius: 16px;
+            border-radius: 20px;
             font-weight: 900;
             text-decoration: none;
             display: block;
             margin-bottom: 15px;
             text-transform: uppercase;
             transition: 0.3s;
+            box-shadow: 0 10px 20px rgba(255, 136, 0, 0.2);
         }
 
         .modal-btn-no {
@@ -194,6 +233,14 @@
         }
 
         .modal-btn-no:hover { color: #fff; }
+
+        /* BANNER GLOW */
+        #pro-banner {
+            background: linear-gradient(90deg, #050505, #0a1128, #050505);
+            background-size: 200% 100%;
+            animation: shimmer 5s infinite linear;
+            box-shadow: 0 4px 15px rgba(255, 174, 0, 0.1);
+        }
 
         /* HEADER */
         header {
@@ -331,13 +378,28 @@
     </div>
 </div>
 
+<!-- PRO UPGRADE BANNER -->
+<div id="pro-banner" style="position: fixed; top: 0; left: 0; width: 100%; border-bottom: 1px solid rgba(255, 174, 0, 0.3); padding: 12px; z-index: 9000; display: none; justify-content: center; align-items: center; gap: 20px; backdrop-filter: blur(10px);">
+    <span style="font-size: 0.7rem; font-weight: 800; color: #fff; letter-spacing: 2px; text-transform: uppercase; opacity: 0.8;">Versão Basic <span style="color: var(--accent-gold);">Ativa</span></span>
+    <a href="https://odestravar.zime.digital/" target="_blank" style="font-size: 0.75rem; font-weight: 900; color: #000; background: linear-gradient(135deg, var(--accent-gold), #ff8800); padding: 6px 18px; border-radius: 50px; text-decoration: none; text-transform: uppercase; box-shadow: 0 0 15px rgba(255, 174, 0, 0.4); transition: 0.3s;" onmouseover="this.style.transform='scale(1.05)'" onmouseout="this.style.transform='scale(1)'">Desbloquear Inteligência PRO</a>
+</div>
+
 <!-- ACCELERATOR MODAL -->
 <div id="accel-modal">
-    <div class="modal-card">
-        <h2 class="modal-title">Performance Detectada! 💎</h2>
-        <p class="modal-text">Seus números mostram um caminho claro de crescimento. Você gostaria de acelerar o processo e chegar nesses resultados em menos tempo?</p>
-        <a href="https://odestravar.zime.digital/" target="_blank" class="modal-btn-yes" id="accel-yes">SIM, QUERO ACELERAR ✅</a>
-        <span class="modal-btn-no" id="accel-no">Ainda não, vou analisar mais 🧐</span>
+    <div class="modal-card" style="background: rgba(10, 20, 45, 0.95); border-color: rgba(255, 174, 0, 0.5);">
+        <h2 class="modal-title">Escala Detectada! 🔥</h2>
+        <p class="modal-text">Seu funil atingiu um padrão de lucro. Libere o mapeamento completo para escalar com segurança:</p>
+        
+        <ul class="modal-benefits">
+            <li>Mapeamento de CTR e Taxa de Carregamento</li>
+            <li>Auditoria de Conversão da Página</li>
+            <li>Identificação de Fricção no Checkout</li>
+            <li>Veredito de Inteligência Artificial</li>
+        </ul>
+
+        <span class="modal-price-tag" style="color: #fff; opacity: 0.6; margin-top: 10px;">HOJE POR APENAS R$ 19,90/mês</span>
+        <a href="https://odestravar.zime.digital/" target="_blank" class="modal-btn-yes" id="accel-yes">LIBERAR ZIME ROI PRO ✅</a>
+        <span class="modal-btn-no" id="accel-no">Continuar na versão básica e limitada</span>
     </div>
 </div>
 
@@ -394,6 +456,7 @@
     if (localStorage.getItem('zime_lead_captured')) {
         gateOverlay.style.display = 'none';
         mainApp.style.display = 'block';
+        document.getElementById('pro-banner').style.display = 'flex';
     }
 
     document.getElementById('gate-submit').onclick = async () => {
